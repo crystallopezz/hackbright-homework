@@ -1,61 +1,47 @@
-melon_cost = 1.00
+def incorrect_payment(customer_orders_file):
+  '''incorrect_payment should take the file of customers and return if any of the customer did not pay the correct price for melons
 
-customer1_name = "Joe"
-customer1_melons = 5
-customer1_paid = 5.00
+    for each customer, 
 
-customer2_name = "Frank"
-customer2_melons = 6
-customer2_paid = 6.00
+    find the customer name
+    find the numbe of melons purchased
+    find how much they paid
 
-customer3_name = "Sally"
-customer3_melons = 3
-customer3_paid = 3.00
+    find out how much they should have paid based on the price
 
-customer4_name = "Sean"
-customer4_melons = 9
-customer4_paid = 9.50
+    if the amount they paid does not equal the price
 
-customer5_name = "David"
-customer5_melons = 4
-customer5_paid = 4.00
+    say "customer_name paid $amount_paid, expected $amount_expected"
 
-customer6_name = "Ashley"
-customer6_melons = 3
-customer6_paid = 2.00
+    otherwise, move on to the next customer'''
+  melon_cost = 1.00
+  
+  #open the file
+  customer_orders = open(customer_orders_file)
 
-customer1_expected = customer1_melons * melon_cost
-if customer1_expected != customer1_paid:
-    print(f"{customer1_name} paid ${customer1_paid:.2f},",
-          f"expected ${customer1_expected:.2f}"
-          )
+  #iterate through each line in the file
+  for line in customer_orders:
 
-customer2_expected = customer2_melons * melon_cost
-if customer2_expected != customer2_paid:
-    print(f"{customer2_name} paid ${customer2_paid:.2f},",
-          f"expected ${customer2_expected:.2f}"
-          )
+    #split line by "|" to get a list of the tx details
+    customer_details = line.split("|")
 
-customer3_expected = customer3_melons * melon_cost
-if customer3_expected != customer3_paid:
-    print(f"{customer3_name} paid ${customer3_paid:.2f},",
-          f"expected ${customer3_expected:.2f}"
-          )
+    #find customer name
+    name = customer_details[1]
 
-customer4_expected = customer4_melons * melon_cost
-if customer4_expected != customer4_paid:
-    print(f"{customer4_name} paid ${customer4_paid:.2f},",
-          f"expected ${customer4_expected:.2f}"
-          )
+    #find out how many melons they purchased and turn it into a float
+    number_melons_purchased = float(customer_details[2])
 
-customer5_expected = customer5_melons * melon_cost
-if customer5_expected != customer5_paid:
-    print(f"{customer5_name} paid ${customer5_paid:.2f},",
-          f"expected ${customer5_expected:.2f}"
-          )
+    #find out how much they paid and turn it into a float
+    paid_amount = float(customer_details[3])
 
-customer6_expected = customer6_melons * melon_cost
-if customer6_expected != customer6_paid:
-    print(f"{customer6_name} paid ${customer6_paid:.2f},",
-          f"expected ${customer6_expected:.2f}"
-          )
+    #find out how much they were supposed to pay
+    expected_amount = number_melons_purchased*melon_cost
+
+    #compare how much paid vs expected to see if they don't match
+    if paid_amount != expected_amount:
+      #if they don't match, print who paid, how much and what they were supposed to pay
+      print(f"{name} paid ${paid_amount:.2f}, expected ${expected_amount:.2f}")
+
+  customer_orders.close()
+
+incorrect_payment("customer-orders.txt")
